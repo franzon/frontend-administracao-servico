@@ -7,29 +7,24 @@ import axios from 'services/axios';
 
 const { Content } = Layout;
 const { Search } = Input;
-
-const COLUMNS = [
-  { title: 'Nome', dataIndex: 'name' },
-  { title: 'Endereço', dataIndex: 'address' },
-  { title: 'Sudbomínio', dataIndex: 'subdomain' },
-];
+const { Column } = Table;
 
 function AcademiesPage() {
-  const [data, setData] = useState({});
+  const [dataSource, setDataSource] = useState({});
   const [page, setPage] = useState(1);
   const history = useHistory();
 
   const requestDataSource = useCallback(async (search = '') => {
     const response = await axios.get('/academy', {
       params: {
-        page,
+        currentPage: page,
         search,
         perPage: 10,
       },
     });
 
-    setData(response.data);
-  }, []);
+    setDataSource(response.data);
+  }, [page]);
 
   useEffect(() => {
     requestDataSource();
@@ -41,6 +36,14 @@ function AcademiesPage() {
 
   function openCreateAcademyPage() {
     history.push('/home/academies/create');
+  }
+
+  function onRowClick(academy) {
+    history.push(`/home/academies/${academy.id}`);
+  }
+
+  function renderName(name) {
+    return <a href="#/">{name}</a>;
   }
 
   return (
@@ -61,7 +64,6 @@ function AcademiesPage() {
                 onClick={openCreateAcademyPage}
               >
                 Cadastrar academia
-
               </Button>
             </Form.Item>
           </Col>
@@ -69,17 +71,25 @@ function AcademiesPage() {
       </Form>
       <Content>
         <Table
-          columns={COLUMNS}
-          loading={!data}
+          bordered
+          loading={!dataSource}
           rowKey="id"
-          dataSource={data ? data.data : []}
+          dataSource={dataSource ? dataSource.data : []}
+          rowClassName="cursor"
           pagination={{
             current: page,
             onChange: (x) => setPage(x),
             pageSize: 10,
-            total: 10,
+            total: dataSource && dataSource.pagination ? dataSource.pagination.total : 0,
           }}
-        />
+          onRow={(record, rowIndex) => ({
+            onClick: () => onRowClick(record),
+          })}
+        >
+          <Column title="Nome" dataIndex="name" render={renderName} />
+          <Column title="Endereço" dataIndex="address" />
+          <Column title="Subdomínio" dataIndex="subdomain" />
+        </Table>
       </Content>
     </Layout>
   );

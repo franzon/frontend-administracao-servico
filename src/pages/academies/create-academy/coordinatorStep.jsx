@@ -43,7 +43,7 @@ function CoordinatorStep({ values, onValuesChange, previousStep }) {
   }
 
   function goBack() {
-    history.replace('/home/academies');
+    history.goBack();
   }
 
   function renderSuccessResult() {

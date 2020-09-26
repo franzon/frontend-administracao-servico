@@ -1,46 +1,48 @@
 import { Table } from 'antd';
+import Search from 'antd/lib/input/Search';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
-import axios from 'services/axios';
 
-function PaginatedTable({ columns, dataSourceUrl, pageSize }) {
+function PaginatedTable({
+  requestDataSource, pageSize, children, ...otherProps
+}) {
   const [page, setPage] = useState(1);
-  const [data, setData] = useState({});
+  const [dataSource, setDataSource] = useState({});
 
-  const requestDataSource = useCallback(async () => {
-    const response = await axios.get(dataSourceUrl, {
-      params: {
-        page,
-        perPage: pageSize,
-      },
-    });
+  const request = useCallback(async (search) => {
+    const response = await requestDataSource({ search, page, perPage: pageSize });
 
-    setData(response);
-  }, [dataSourceUrl, page, pageSize]);
+    setDataSource(response);
+  }, [page, pageSize, requestDataSource]);
 
   useEffect(() => {
-    requestDataSource();
-  }, [requestDataSource]);
+    request('');
+  }, [request]);
 
   return (
-    <Table
-      columns={columns}
-      loading={!data}
-      dataSource={data ? data.data : []}
-      pagination={{
-        current: page,
-        onChange: (x) => setPage(x),
-        pageSize,
-        total: data ? data.pagination.total : 0,
-      }}
-    />
+    <>
+      <Search onSearch={request} size="large" placeholder="Pesquisar academia" />
+      <Table
+        loading={!dataSource}
+        dataSource={dataSource ? dataSource.data : []}
+        pagination={{
+          current: page,
+          onChange: (x) => setPage(x),
+          pageSize,
+          total: dataSource ? dataSource.pagination.total : 0,
+        }}
+        {...otherProps}
+      >
+        {children}
+      </Table>
+    </>
   );
 }
 
 PaginatedTable.propTypes = {
-  columns: PropTypes.arrayOf().isRequired,
-  dataSourceUrl: PropTypes.string.isRequired,
+  requestDataSource: PropTypes.func.isRequired,
   pageSize: PropTypes.number,
+  children: PropTypes.any.isRequired,
 };
 
 PaginatedTable.defaultProps = {

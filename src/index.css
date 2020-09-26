@@ -27,3 +27,11 @@ code {
 .ant-form-item-has-success.ant-form-item-has-feedback .ant-form-item-children-icon {
   right: 130px !important;
 }
+
+.cursor {
+  cursor: pointer;
+}
+
+.tabs, .ant-tabs-content {
+  height: 100% !important;
+}

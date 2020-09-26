@@ -3,6 +3,7 @@ import {
   Avatar, Button, Col, Dropdown, Layout, Menu, Row, Typography,
 } from 'antd';
 import ScoreboardIcon from 'assets/icons/scoreboard.png';
+import AcademyPage from 'pages/academies/academy';
 import CreateAcademyPage from 'pages/academies/create-academy';
 import React from 'react';
 import {
@@ -83,6 +84,9 @@ function HomePage() {
         </Route>
         <Route path={`${path}/academies/create`}>
           <CreateAcademyPage />
+        </Route>
+        <Route path={`${path}/academies/:id`}>
+          <AcademyPage />
         </Route>
       </Switch>
     );

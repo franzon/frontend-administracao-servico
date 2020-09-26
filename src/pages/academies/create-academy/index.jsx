@@ -21,7 +21,7 @@ function CreateAcademyPage() {
   const [values, setValues] = useState(INITIAL_VALUES);
 
   function goBack() {
-    history.replace('/home/academies');
+    history.goBack();
   }
 
   function previousStep() {
