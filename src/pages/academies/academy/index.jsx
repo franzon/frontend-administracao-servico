@@ -1,5 +1,5 @@
 import {
-  ArrowLeftOutlined, InfoCircleOutlined,
+  ArrowLeftOutlined, InfoCircleOutlined, InsertRowBelowOutlined,
 } from '@ant-design/icons';
 import {
   Button, Col, message, Row, Spin, Tabs, Typography,
@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'services/axios';
 import AcademyInfoPage from './academyInfo';
+import ScoreboardsPage from './scoreboards';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -82,6 +83,17 @@ function AcademyPage() {
               key="1"
             >
               <AcademyInfoPage academy={academy} onUpdated={requestData} />
+            </TabPane>
+            <TabPane
+              tab={(
+                <span>
+                  <InsertRowBelowOutlined />
+                  Placares
+                </span>
+      )}
+              key="2"
+            >
+              <ScoreboardsPage academy={academy} />
             </TabPane>
           </Tabs>
         </Col>
