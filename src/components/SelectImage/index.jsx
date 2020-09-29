@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 function SelectImage({ name, initialImageUrl, onSelectFile }) {
-  const [fileList, setFileList] = useState([{
+  const [fileList, setFileList] = useState(initialImageUrl ? [{
     uid: '-1',
     name: 'logo.png',
     status: 'done',
     url: initialImageUrl,
-  }]);
+  }] : []);
 
   function beforeUpload() {
     return false;
@@ -43,8 +43,12 @@ function SelectImage({ name, initialImageUrl, onSelectFile }) {
 
 SelectImage.propTypes = {
   name: PropTypes.string.isRequired,
-  initialImageUrl: PropTypes.string.isRequired,
+  initialImageUrl: PropTypes.string,
   onSelectFile: PropTypes.func.isRequired,
+};
+
+SelectImage.defaultProps = {
+  initialImageUrl: '',
 };
 
 export default SelectImage;

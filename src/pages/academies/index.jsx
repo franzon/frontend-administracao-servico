@@ -43,7 +43,7 @@ function AcademiesPage() {
   }
 
   function renderName(name) {
-    return <a href="#/">{name}</a>;
+    return <a>{name}</a>;
   }
 
   return (

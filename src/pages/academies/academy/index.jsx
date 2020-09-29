@@ -1,5 +1,5 @@
 import {
-  ArrowLeftOutlined, InfoCircleOutlined, InsertRowBelowOutlined,
+  ArrowLeftOutlined, InfoCircleOutlined, InsertRowBelowOutlined, UsergroupAddOutlined,
 } from '@ant-design/icons';
 import {
   Button, Col, message, Row, Spin, Tabs, Typography,
@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'services/axios';
 import AcademyInfoPage from './academyInfo';
+import CoordinatorsPage from './coordinators';
 import ScoreboardsPage from './scoreboards';
 
 const { Title } = Typography;
@@ -94,6 +95,17 @@ function AcademyPage() {
               key="2"
             >
               <ScoreboardsPage academy={academy} />
+            </TabPane>
+            <TabPane
+              tab={(
+                <span>
+                  <UsergroupAddOutlined />
+                  Coordenadores
+                </span>
+      )}
+              key="3"
+            >
+              <CoordinatorsPage academy={academy} />
             </TabPane>
           </Tabs>
         </Col>

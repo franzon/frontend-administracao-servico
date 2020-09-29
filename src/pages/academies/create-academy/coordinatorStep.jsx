@@ -92,6 +92,13 @@ function CoordinatorStep({ values, onValuesChange, previousStep }) {
                 placeholder="joao@silva.com"
               />
             </Form.Item>
+            <Form.Item
+              name={['coordinator', 'password']}
+              label="Senha"
+              rules={[{ required: true, message: 'Por favor digite uma senha' }, { min: 6, message: 'A senha deve conter no mínimo 6 caracteres' }]}
+            >
+              <Input.Password />
+            </Form.Item>
           </Col>
         </Row>
         <Row justify="end" gutter={12}>

@@ -10,7 +10,7 @@ const { useForm } = Form;
 function EditableTable({
   columns, keyColumn = 'key', initialDataSource, onDataSourceChange,
 }) {
-  const [dataSource, setDataSource] = useState(initialDataSource)
+  const [dataSource, setDataSource] = useState(initialDataSource);
   const [editingRowForm] = useForm();
   const editingRowFirstInputRef = useRef();
   const [editingKey, setEditingKey] = useState(null);
@@ -26,7 +26,7 @@ function EditableTable({
 
     setDataSource([...dataSource, {
       [keyColumn]: '',
-      key: ''
+      key: '',
     }]);
 
     setEditingKey('');
@@ -46,7 +46,7 @@ function EditableTable({
       }
 
       setDataSource(newData);
-      onDataSourceChange(newData)
+      onDataSourceChange(newData);
 
       setEditingKey(null);
 
@@ -84,7 +84,7 @@ function EditableTable({
     newData.splice(index, 1);
 
     setDataSource(newData);
-    onDataSourceChange(newData)
+    onDataSourceChange(newData);
   }
 
   function renderActions(text, record, index) {
@@ -94,26 +94,26 @@ function EditableTable({
       if (isEditing) {
         return (
           <Popconfirm title="Deseja descartar a linha atual?" onConfirm={() => onEdit(record)}>
-            <a href="#/" disabled={isEditing}>Editar</a>
+            <a disabled={isEditing}>Editar</a>
           </Popconfirm>
         );
       }
 
-      return <a href="#/" disabled={isEditing} onClick={() => onEdit(record)}>Editar</a>;
+      return <a disabled={isEditing} onClick={() => onEdit(record)}>Editar</a>;
     }
 
     const content = record[keyColumn] === editingKey ? (
       <>
-        <a href="#/" onClick={() => onSave(record)}>Salvar</a>
+        <a onClick={() => onSave(record)}>Salvar</a>
         <Popconfirm title="Tem certeza?" onConfirm={onCancel}>
-          <a href="#/">Cancelar</a>
+          <a>Cancelar</a>
         </Popconfirm>
       </>
     ) : (
       <>
         {renderEdit()}
         <Popconfirm title="Tem certeza?" onConfirm={() => onRemove(record)}>
-          <a href="#/" disabled={isEditing}>Remover</a>
+          <a disabled={isEditing}>Remover</a>
         </Popconfirm>
       </>
     );

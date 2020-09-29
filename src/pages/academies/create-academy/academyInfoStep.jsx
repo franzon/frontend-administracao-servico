@@ -1,14 +1,13 @@
-import { InboxOutlined } from '@ant-design/icons';
 import {
-  Button, Col, Form, Input, message, Row, Upload,
+  Button, Col, Form, Input, message, Row,
 } from 'antd';
+import SelectImage from 'components/SelectImage';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import axios from 'services/axios';
 
 const { useForm } = Form;
-const { Dragger } = Upload;
 
 function AcademyInfoStep({ values, onValuesChange, nextStep }) {
   const [form] = useForm();
@@ -53,15 +52,9 @@ function AcademyInfoStep({ values, onValuesChange, nextStep }) {
     onValuesChange(allValues);
   }
 
-  function beforeUpload(logo) {
-    onValuesChange({ logo });
-    return false;
+  function onSelectImage(image) {
+    form.setFieldsValue({ logo: image });
   }
-
-  function removeFile() {
-    onValuesChange({ logo: null });
-  }
-
   return (
     <Form
       form={form}
@@ -104,21 +97,13 @@ function AcademyInfoStep({ values, onValuesChange, nextStep }) {
         </Col>
         <Col span={8} offset={4}>
           <Form.Item
+            name="logo"
             label="Logo"
           >
-            <Dragger
+            <SelectImage
               name="logo"
-              multiple={false}
-              beforeUpload={beforeUpload}
-              accept=".jpg,.png"
-              fileList={values.logo ? [values.logo] : []}
-              onRemove={removeFile}
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Clique ou arraste uma imagem</p>
-            </Dragger>
+              onSelectFile={onSelectImage}
+            />
           </Form.Item>
         </Col>
       </Row>

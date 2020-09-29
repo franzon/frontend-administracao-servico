@@ -8,15 +8,15 @@ const { Column } = Table;
 const { Content } = Layout;
 const { Search } = Input;
 
-function ScoreboardsPage({ academy }) {
+function CoordinatorsPage({ academy }) {
   const [form] = Form.useForm();
   const [dataSource, setDataSource] = useState({});
-  const [editingScoreboard, setEditingScoreboard] = useState(null);
+  const [editingCoordinator, setEditingCoordinator] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [page, setPage] = useState(1);
 
   const requestDataSource = useCallback(async (search = '') => {
-    const response = await axios.get(`/academy/${academy.id}/scoreboards`, {
+    const response = await axios.get(`/academy/${academy.id}/coordinators`, {
       params: {
         currentPage: page,
         search,
@@ -35,21 +35,21 @@ function ScoreboardsPage({ academy }) {
     requestDataSource(value);
   }
 
-  function openCreateOrEditScoreboardModal(scoreboard) {
+  function openCreateOrEditCoordinatorModal(coordinator) {
     setModalVisible(true);
 
-    if (scoreboard) {
-      setEditingScoreboard(scoreboard);
-      form.setFieldsValue(scoreboard);
+    if (coordinator) {
+      setEditingCoordinator(coordinator);
+      form.setFieldsValue(coordinator);
     }
   }
 
-  async function onRemove(scoreboard) {
+  async function onRemove(coordinator) {
     try {
-      await axios.delete(`/scoreboard/${scoreboard.id}`);
-      message.success('O placar foi desabilitado com sucesso.');
+      await axios.delete(`/coordinator/${coordinator.id}`);
+      message.success('O coordenador foi excluido com sucesso.');
     } catch (error) {
-      message.error('Ocorreu um erro ao desabilitar o placar.');
+      message.error('Ocorreu um erro ao excluir o coordenador.');
     } finally {
       requestDataSource();
     }
@@ -57,21 +57,21 @@ function ScoreboardsPage({ academy }) {
 
   function handleCancel() {
     setModalVisible(false);
-    setEditingScoreboard(null);
+    setEditingCoordinator(null);
 
     form.resetFields();
   }
 
-  async function createScoreboard(values) {
+  async function createCoordinator(values) {
     try {
-      await axios.post(`/academy/${academy.id}/scoreboards`, values);
-      message.success('O placar foi criado com sucesso.');
+      await axios.post(`/academy/${academy.id}/coordinators`, values);
+      message.success('O coordenador foi criado com sucesso.');
 
       handleCancel();
     } catch (error) {
       const { response = {} } = error;
       const { data = {} } = response;
-      const { message: msg = 'Ocorreu um erro ao criar o placar.' } = data;
+      const { message: msg = 'Ocorreu um erro ao criar o coordenador.' } = data;
 
       message.error(msg);
     } finally {
@@ -79,16 +79,16 @@ function ScoreboardsPage({ academy }) {
     }
   }
 
-  async function updateScoreboard(values) {
+  async function updateCoordinator(values) {
     try {
-      await axios.put(`/scoreboard/${editingScoreboard.id}`, values);
-      message.success('O placar foi atualizado com sucesso.');
+      await axios.put(`/coordinator/${editingCoordinator.id}`, values);
+      message.success('O coordenador foi atualizado com sucesso.');
 
       handleCancel();
     } catch (error) {
       const { response = {} } = error;
       const { data = {} } = response;
-      const { message: msg = 'Ocorreu um erro ao atualizar o placar.' } = data;
+      const { message: msg = 'Ocorreu um erro ao atualizar o coordenador.' } = data;
 
       message.error(msg);
     } finally {
@@ -100,8 +100,8 @@ function ScoreboardsPage({ academy }) {
     form
       .validateFields()
       .then((values) => {
-        if (editingScoreboard) { return updateScoreboard(values); }
-        return createScoreboard(values);
+        if (editingCoordinator) { return updateCoordinator(values); }
+        return createCoordinator(values);
       });
   }
 
@@ -109,7 +109,7 @@ function ScoreboardsPage({ academy }) {
     return (
       <Modal
         visible={modalVisible}
-        title={editingScoreboard ? 'Editar placar' : 'Criar placar'}
+        title={editingCoordinator ? 'Editar coordenador' : 'Criar coordenador'}
         onOk={handleOk}
         onCancel={handleCancel}
       >
@@ -117,26 +117,31 @@ function ScoreboardsPage({ academy }) {
           <Col span={16}>
             <Form size="large" layout="vertical" form={form}>
               <Form.Item
-                name="description"
-                label="Descrição"
-                rules={[{ required: true, message: 'Por favor escolha uma descrição' }]}
+                name="name"
+                label="Nome"
+                rules={[{ required: true, message: 'Por favor digite um nome' }]}
               >
-                <Input placeholder="Placar quadra 1" />
+                <Input placeholder="João" />
               </Form.Item>
               <Form.Item
-                name="serialNumber"
-                label="Identificador único"
-                rules={[{ required: true, message: 'Por favor digite o identificador único do placar' }]}
+                name="email"
+                label="E-mail"
+                rules={[{ required: true, message: 'Por favor digite um e-mail' }, { type: 'email', message: 'Digite um e-mail válido' }]}
               >
-                <Input placeholder="1234" />
+                <Input
+                  placeholder="joao@silva.com"
+                />
               </Form.Item>
+              {!editingCoordinator && modalVisible && (
               <Form.Item
-                name="staticToken"
-                label="Token estático"
-                rules={[{ required: true, message: 'Por favor digite o token estático do placar' }]}
+                name="password"
+                label="Senha"
+                rules={[{ required: true, message: 'Por favor digite uma senha' }, { min: 6, message: 'A senha deve conter no mínimo 6 caracteres' }]}
               >
-                <Input placeholder="1234" />
+                <Input.Password />
               </Form.Item>
+              )}
+
             </Form>
           </Col>
         </Row>
@@ -144,12 +149,12 @@ function ScoreboardsPage({ academy }) {
     );
   }
 
-  function renderActions(scoreboard) {
+  function renderActions(coordinator) {
     return (
       <Space>
-        <a onClick={() => openCreateOrEditScoreboardModal(scoreboard)}>Editar</a>
-        <Popconfirm title="Tem certeza?" onConfirm={() => onRemove(scoreboard)}>
-          <a>Desabilitar</a>
+        <a onClick={() => openCreateOrEditCoordinatorModal(coordinator)}>Editar</a>
+        <Popconfirm title="Tem certeza?" onConfirm={() => onRemove(coordinator)}>
+          <a>Excluir</a>
         </Popconfirm>
       </Space>
     );
@@ -161,7 +166,7 @@ function ScoreboardsPage({ academy }) {
         <Row>
           <Col span={8}>
             <Form.Item>
-              <Search onSearch={onSearch} size="large" placeholder="Pesquisar placar" />
+              <Search onSearch={onSearch} size="large" placeholder="Pesquisar coordenador" />
             </Form.Item>
           </Col>
           <Col flex="auto" />
@@ -170,9 +175,9 @@ function ScoreboardsPage({ academy }) {
               <Button
                 type="primary"
                 size="large"
-                onClick={() => openCreateOrEditScoreboardModal()}
+                onClick={() => openCreateOrEditCoordinatorModal()}
               >
-                Cadastrar placar
+                Cadastrar coordenador
               </Button>
             </Form.Item>
           </Col>
@@ -192,11 +197,9 @@ function ScoreboardsPage({ academy }) {
             total: dataSource && dataSource.pagination ? dataSource.pagination.total : 0,
           }}
         >
-          <Column title="Descrição" dataIndex="description" />
-          <Column title="Identificador único" dataIndex="serialNumber" />
-          <Column title="Token estático" dataIndex="staticToken" />
+          <Column title="Nome" dataIndex="name" />
+          <Column title="E-mail" dataIndex="email" />
           <Column title="Ações" key="actions" render={renderActions} />
-
         </Table>
         {renderModal()}
       </Content>
@@ -204,4 +207,4 @@ function ScoreboardsPage({ academy }) {
   );
 }
 
-export default ScoreboardsPage;
+export default CoordinatorsPage;
