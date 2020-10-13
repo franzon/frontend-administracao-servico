@@ -2,14 +2,15 @@ import {
   Button,
   Col, Form, Input, message, Result, Row,
 } from 'antd';
+import useAxios from 'hooks/use-axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'services/axios';
 
 const { useForm } = Form;
 
 function CoordinatorStep({ values, onValuesChange, previousStep }) {
+  const axios = useAxios();
   const [form] = useForm();
   const [requesting, setRequesting] = useState(false);
   const [success, setSuccess] = useState(false);

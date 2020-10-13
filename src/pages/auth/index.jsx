@@ -1,18 +1,27 @@
 import {
-  Avatar, Button, Col, Form, Input, Layout, Row, Typography,
+  Avatar, Button, Col, Form, Input, Layout, message, Row, Typography,
 } from 'antd';
 import React from 'react';
 import { TeamOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
+import useAxios from 'hooks/use-axios';
 
 const { Content } = Layout;
 const { Title } = Typography;
 
 function AuthPage() {
+  const axios = useAxios();
   const history = useHistory();
 
-  function onFinish({ email, password }) {
-    history.replace('/home');
+  async function onFinish({ email, password }) {
+    try {
+      const { data } = await axios.post('/authentication', { email, password });
+
+      localStorage.setItem('Authorization', data.token);
+      history.replace('/home');
+    } catch (error) {
+      message.error('Verifique se as credenciais estão corretas.');
+    }
   }
 
   return (
@@ -29,11 +38,14 @@ function AuthPage() {
             <Form size="large" onFinish={onFinish}>
               <Form.Item
                 name="email"
+                rules={[{ required: true, message: 'Digite um e-mail.' },
+                  { type: 'email', message: 'Digite um e-mail válido.' }]}
               >
                 <Input placeholder="Email" autoComplete="username" />
               </Form.Item>
               <Form.Item
                 name="password"
+                rules={[{ required: true, message: 'Digite uma senha.' }, { min: 6, message: 'A senha deve conter pelo menos 6 caracteres.' }]}
               >
                 <Input.Password placeholder="Senha" autoComplete="current-password" />
               </Form.Item>

@@ -31,6 +31,7 @@ function SelectImage({ name, initialImageUrl, onSelectFile }) {
       fileList={fileList}
       showUploadList={{ showPreviewIcon: false }}
       onChange={handleChange}
+      accept=".png,.jpg,.jpeg"
     >
       {fileList.length ? null : (
         <div>

@@ -1,15 +1,16 @@
 import {
   Button, Col, Form, Input, Layout, Row, Table,
 } from 'antd';
+import useAxios from 'hooks/use-axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'services/axios';
 
 const { Content } = Layout;
 const { Search } = Input;
 const { Column } = Table;
 
 function AcademiesPage() {
+  const axios = useAxios();
   const [dataSource, setDataSource] = useState({});
   const [page, setPage] = useState(1);
   const history = useHistory();

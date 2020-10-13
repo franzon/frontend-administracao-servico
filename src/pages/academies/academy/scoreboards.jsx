@@ -1,14 +1,15 @@
 import {
-  Button, Col, Form, Input, Layout, message, Popconfirm, Row, Space, Table, Modal,
+  Button, Col, Form, Input, Layout, message, Modal, Popconfirm, Row, Space, Table,
 } from 'antd';
+import useAxios from 'hooks/use-axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import axios from 'services/axios';
 
 const { Column } = Table;
 const { Content } = Layout;
 const { Search } = Input;
 
 function ScoreboardsPage({ academy }) {
+  const axios = useAxios();
   const [form] = Form.useForm();
   const [dataSource, setDataSource] = useState({});
   const [editingScoreboard, setEditingScoreboard] = useState(null);

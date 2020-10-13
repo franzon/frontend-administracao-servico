@@ -2,13 +2,14 @@ import {
   Button, Col, Form, Input, message, Row, Skeleton,
 } from 'antd';
 import SelectImage from 'components/SelectImage';
+import useAxios from 'hooks/use-axios';
 import { debounce } from 'lodash';
 import React from 'react';
-import axios from 'services/axios';
 
 const { useForm } = Form;
 
 function AcademyInfoPage({ academy, onUpdated }) {
+  const axios = useAxios();
   const [form] = useForm();
 
   async function updateAcademy(values) {

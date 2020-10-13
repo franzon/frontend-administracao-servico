@@ -2,14 +2,15 @@ import {
   Button, Col, Form, Input, message, Row,
 } from 'antd';
 import SelectImage from 'components/SelectImage';
+import useAxios from 'hooks/use-axios';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import axios from 'services/axios';
 
 const { useForm } = Form;
 
 function AcademyInfoStep({ values, onValuesChange, nextStep }) {
+  const axios = useAxios();
   const [form] = useForm();
 
   useEffect(() => {
@@ -99,6 +100,7 @@ function AcademyInfoStep({ values, onValuesChange, nextStep }) {
           <Form.Item
             name="logo"
             label="Logo"
+            required
           >
             <SelectImage
               name="logo"

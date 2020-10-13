@@ -4,9 +4,9 @@ import {
 import {
   Button, Col, message, Row, Spin, Tabs, Typography,
 } from 'antd';
+import useAxios from 'hooks/use-axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import axios from 'services/axios';
 import AcademyInfoPage from './academyInfo';
 import CoordinatorsPage from './coordinators';
 import ScoreboardsPage from './scoreboards';
@@ -15,6 +15,7 @@ const { Title } = Typography;
 const { TabPane } = Tabs;
 
 function AcademyPage() {
+  const axios = useAxios();
   const history = useHistory();
   const [academy, setAcademy] = useState(null);
   const [loading, setLoading] = useState(true);
