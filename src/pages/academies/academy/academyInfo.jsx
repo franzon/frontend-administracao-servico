@@ -1,10 +1,14 @@
 import {
   Button, Col, Form, Input, message, Row, Skeleton,
 } from 'antd';
+import Editor from 'components/Editor';
 import SelectImage from 'components/SelectImage';
 import useAxios from 'hooks/use-axios';
 import { debounce } from 'lodash';
 import React from 'react';
+import { convertToRaw, ContentState, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 
 const { useForm } = Form;
 
@@ -14,11 +18,18 @@ function AcademyInfoPage({ academy, onUpdated }) {
 
   async function updateAcademy(values) {
     try {
+      const rawContentState = convertToRaw(values.additionalInfo.getCurrentContent());
+
+      const additionalInfo = draftToHtml(
+        rawContentState,
+      );
+
       const formData = new FormData();
       formData.append('name', values.name);
       formData.append('subdomain', values.subdomain);
       formData.append('address', values.address);
       formData.append('logo', values.logo);
+      formData.append('additionalInfo', additionalInfo);
 
       await axios.put(`/academy/${academy.id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 
@@ -58,10 +69,21 @@ function AcademyInfoPage({ academy, onUpdated }) {
     form.setFieldsValue({ logo: image });
   }
 
+  function getFormInitialValues() {
+    const contentBlock = htmlToDraft(academy.additionalInfo || '');
+    const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+    const editorState = EditorState.createWithContent(contentState);
+
+    return {
+      ...academy,
+      additionalInfo: editorState,
+    };
+  }
+
   return !academy ? <Skeleton /> : (
     <Form
       form={form}
-      initialValues={academy}
+      initialValues={getFormInitialValues()}
       style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       name="academy-info"
       size="large"
@@ -97,6 +119,12 @@ function AcademyInfoPage({ academy, onUpdated }) {
           >
             <Input placeholder="Rua 123" />
           </Form.Item>
+          <Form.Item
+            name="additionalInfo"
+            label="Informativos"
+          >
+            <Editor />
+          </Form.Item>
         </Col>
         <Col span={8} offset={4}>
           <Form.Item
@@ -123,7 +151,7 @@ function AcademyInfoPage({ academy, onUpdated }) {
                     !form.isFieldsTouched()
                     || form.isFieldsValidating()
                     || form.getFieldsError().filter(({ errors }) => errors.length).length
-}
+                }
               >
                 Atualizar academia
               </Button>

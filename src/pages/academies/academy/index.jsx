@@ -31,7 +31,7 @@ function AcademyPage() {
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, axios]);
 
   useEffect(() => {
     requestData();
