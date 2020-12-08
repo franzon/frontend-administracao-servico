@@ -17,8 +17,9 @@ function CoordinatorsPage({ academy }) {
   const [page, setPage] = useState(1);
 
   const requestDataSource = useCallback(async (search = '') => {
-    const response = await axios.get(`/academy/${academy.id}/coordinators`, {
+    const response = await axios.get('coordinator/administration', {
       params: {
+        academyId: academy.id,
         currentPage: page,
         search,
         perPage: 10,
@@ -26,7 +27,7 @@ function CoordinatorsPage({ academy }) {
     });
 
     setDataSource(response.data);
-  }, [page, academy.id]);
+  }, [axios, page, academy.id]);
 
   useEffect(() => {
     requestDataSource();
@@ -47,7 +48,7 @@ function CoordinatorsPage({ academy }) {
 
   async function onRemove(coordinator) {
     try {
-      await axios.delete(`/coordinator/${coordinator.id}`);
+      await axios.delete(`coordinator/administration/${coordinator.id}`);
       message.success('O coordenador foi excluido com sucesso.');
     } catch (error) {
       message.error('Ocorreu um erro ao excluir o coordenador.');
@@ -65,7 +66,7 @@ function CoordinatorsPage({ academy }) {
 
   async function createCoordinator(values) {
     try {
-      await axios.post(`/academy/${academy.id}/coordinators`, values);
+      await axios.post('coordinator/administration', { ...values, academyId: academy.id });
       message.success('O coordenador foi criado com sucesso.');
 
       handleCancel();
@@ -82,7 +83,7 @@ function CoordinatorsPage({ academy }) {
 
   async function updateCoordinator(values) {
     try {
-      await axios.put(`/coordinator/${editingCoordinator.id}`, values);
+      await axios.put(`coordinator/administration/${editingCoordinator.id}`, values);
       message.success('O coordenador foi atualizado com sucesso.');
 
       handleCancel();

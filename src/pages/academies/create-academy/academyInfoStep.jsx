@@ -26,7 +26,7 @@ function AcademyInfoStep({ values, onValuesChange, nextStep }) {
 
   async function requestIsSubdomainAvailable(value) {
     try {
-      const { data } = await axios.get(`/academy/checkSubdomain/${value}`);
+      const { data } = await axios.get(`academy/checkIfSubdomainIsAvailable/${value}`);
 
       return data.isAvailable;
     } catch (error) {

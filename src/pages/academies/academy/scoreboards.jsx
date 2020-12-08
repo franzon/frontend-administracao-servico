@@ -17,8 +17,9 @@ function ScoreboardsPage({ academy }) {
   const [page, setPage] = useState(1);
 
   const requestDataSource = useCallback(async (search = '') => {
-    const response = await axios.get(`/academy/${academy.id}/scoreboards`, {
+    const response = await axios.get('scoreboard', {
       params: {
+        academyId: academy.id,
         currentPage: page,
         search,
         perPage: 10,
@@ -26,7 +27,7 @@ function ScoreboardsPage({ academy }) {
     });
 
     setDataSource(response.data);
-  }, [page, academy.id]);
+  }, [axios, page, academy.id]);
 
   useEffect(() => {
     requestDataSource();
@@ -47,7 +48,7 @@ function ScoreboardsPage({ academy }) {
 
   async function onRemove(scoreboard) {
     try {
-      await axios.delete(`/scoreboard/${scoreboard.id}`);
+      await axios.delete(`scoreboard/${scoreboard.id}`);
       message.success('O placar foi desabilitado com sucesso.');
     } catch (error) {
       message.error('Ocorreu um erro ao desabilitar o placar.');
@@ -65,7 +66,7 @@ function ScoreboardsPage({ academy }) {
 
   async function createScoreboard(values) {
     try {
-      await axios.post(`/academy/${academy.id}/scoreboards`, values);
+      await axios.post('scoreboard/', { ...values, academyId: academy.id });
       message.success('O placar foi criado com sucesso.');
 
       handleCancel();

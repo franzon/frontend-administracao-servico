@@ -25,7 +25,7 @@ function AcademiesPage() {
     });
 
     setDataSource(response.data);
-  }, [page]);
+  }, [axios, page]);
 
   useEffect(() => {
     requestDataSource();

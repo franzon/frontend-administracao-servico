@@ -6,6 +6,7 @@ import SelectImage from 'components/SelectImage';
 import useAxios from 'hooks/use-axios';
 import { debounce } from 'lodash';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
@@ -42,7 +43,7 @@ function AcademyInfoPage({ academy, onUpdated }) {
 
   async function requestIsSubdomainAvailable(value) {
     try {
-      const { data } = await axios.get(`/academy/checkSubdomain/${value}`);
+      const { data } = await axios.get(`/academy/checkIfSubdomainIsAvailable/${value}`);
 
       return data.isAvailable;
     } catch (error) {
@@ -162,5 +163,12 @@ function AcademyInfoPage({ academy, onUpdated }) {
     </Form>
   );
 }
+
+AcademyInfoPage.defaultProps = {
+  academy: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    subdomain: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default AcademyInfoPage;

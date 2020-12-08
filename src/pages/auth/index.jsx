@@ -15,7 +15,7 @@ function AuthPage() {
 
   async function onFinish({ email, password }) {
     try {
-      const { data } = await axios.post('/authentication', { email, password });
+      const { data } = await axios.post('/authentication/admin', { email, password });
 
       localStorage.setItem('Authorization', data.token);
       history.replace('/home');

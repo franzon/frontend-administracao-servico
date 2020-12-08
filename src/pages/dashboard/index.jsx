@@ -13,7 +13,7 @@ function DashboardPage() {
     setLoading(true);
 
     try {
-      const { data: dashboardData } = await axios.get('/dashboard');
+      const { data: dashboardData } = await axios.get('/service/dashboard');
 
       setData(dashboardData);
     } catch (error) {

@@ -1,5 +1,6 @@
 import { EditorState } from 'draft-js';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Editor as DraftEditor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -19,5 +20,10 @@ function Editor({ value = EditorState.createEmpty(), onChange }) {
     />
   );
 }
+
+Editor.propTypes = {
+  value: PropTypes.any.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default Editor;
