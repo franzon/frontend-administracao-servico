@@ -55,7 +55,10 @@ function AcademyInfoStep({ values, onValuesChange, nextStep }) {
 
   function onSelectImage(image) {
     form.setFieldsValue({ logo: image });
+
+    onValuesChange({ ...values, logo: image });
   }
+
   return (
     <Form
       form={form}

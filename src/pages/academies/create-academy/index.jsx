@@ -33,6 +33,7 @@ function CreateAcademyPage() {
   }
 
   function onValuesChange(changedValues) {
+    console.log({ ...values, ...changedValues });
     setValues((oldValues) => ({ ...oldValues, ...changedValues }));
   }
 

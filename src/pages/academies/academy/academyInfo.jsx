@@ -134,7 +134,7 @@ function AcademyInfoPage({ academy, onUpdated }) {
           >
             <SelectImage
               name="logo"
-              initialImageUrl="https://uilogos.co/img/logomark/atica.png"
+              initialImageUrl={academy.logoUrl}
               onSelectFile={onSelectImage}
             />
           </Form.Item>
