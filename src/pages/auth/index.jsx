@@ -1,10 +1,10 @@
 import {
   Avatar, Button, Col, Form, Input, Layout, message, Row, Typography,
 } from 'antd';
-import React from 'react';
-import { TeamOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import Logo from 'assets/icons/logo.svg';
 import useAxios from 'hooks/use-axios';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -33,7 +33,7 @@ function AuthPage() {
           style={{ height: '100%' }}
         >
           <Col span={4} style={{ textAlign: 'center' }}>
-            <Avatar size={100} icon={<TeamOutlined />} style={{ marginBottom: 16 }} />
+            <Avatar size={100} src={Logo} style={{ marginBottom: 16 }} />
             <Title level={3} type="secondary" style={{ marginBottom: 32 }}>Scoreboard</Title>
             <Form size="large" onFinish={onFinish}>
               <Form.Item

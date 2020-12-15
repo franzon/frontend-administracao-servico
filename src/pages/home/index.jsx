@@ -2,7 +2,7 @@ import { AppstoreOutlined, DashboardOutlined, MenuOutlined } from '@ant-design/i
 import {
   Avatar, Button, Col, Dropdown, Layout, Menu, Row, Typography,
 } from 'antd';
-import ScoreboardIcon from 'assets/icons/scoreboard.png';
+import Logo from 'assets/icons/logo.svg';
 import AcademyPage from 'pages/academies/academy';
 import CreateAcademyPage from 'pages/academies/create-academy';
 import React from 'react';
@@ -40,7 +40,7 @@ function HomePage() {
           <Col style={{ padding: 12, flex: 1 }}>
             <Row align="middle">
               <Col span={6}>
-                <Avatar src={ScoreboardIcon} shape="square" size={36} />
+                <Avatar src={Logo} shape="square" size={36} />
               </Col>
               <Col span={14}>
                 <Text style={{ fontWeight: 500, color: 'white' }}>Scoreboard</Text>
