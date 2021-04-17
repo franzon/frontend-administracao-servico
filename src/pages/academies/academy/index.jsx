@@ -64,7 +64,7 @@ function AcademyPage() {
         </Col>
         <Col flex="auto" />
         <Col>
-          <Button href={academy ? `https://${academy.subdomain}.scoreboard.tech` : ''}>Acessar página da academia</Button>
+          <Button href={academy ? `https://${academy.subdomain}.scoreboardapp.tech` : ''}>Acessar página da academia</Button>
         </Col>
       </Row>
       <Row style={{ height: '100%' }}>
