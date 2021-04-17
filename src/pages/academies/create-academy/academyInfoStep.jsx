@@ -88,7 +88,7 @@ function AcademyInfoStep({ values, onValuesChange, nextStep }) {
             <Input
               placeholder="academia"
               addonBefore="https://"
-              addonAfter=".scoreboard.com"
+              addonAfter=".scoreboardapp.tech"
             />
           </Form.Item>
           <Form.Item

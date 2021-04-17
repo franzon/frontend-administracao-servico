@@ -110,7 +110,7 @@ function AcademyInfoPage({ academy, onUpdated }) {
             <Input
               placeholder="academia"
               addonBefore="https://"
-              addonAfter=".scoreboard.com"
+              addonAfter=".scoreboardapp.tech"
             />
           </Form.Item>
           <Form.Item
